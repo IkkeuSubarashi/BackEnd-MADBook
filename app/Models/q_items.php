@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class q_items extends Model
 {
     use HasFactory;
+    public function quotations(){
+        return $this->belongsToMany(quotations::class);
+    }
 }

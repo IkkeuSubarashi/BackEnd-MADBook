@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class borrower extends Model
 {
     use HasFactory;
+    public function quotations(){
+        return $this->hasMany(quotations::class);
+    }
 }
