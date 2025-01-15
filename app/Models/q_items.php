@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class q_items extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     public function quotations(){
-        return $this->belongsToMany(quotations::class);
+        return $this->belongsToMany(quotations::class,'quote_items','item_id','quote_id');
     }
 }
