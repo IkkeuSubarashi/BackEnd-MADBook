@@ -6,20 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->longText('logo');
+            $table->string('subject');
+            $table->date('valid_date');
+            $table->boolean('status');
+            $table->decimal('total', 10, 2);
+            $table->timestamp('created_at');
+            $table->string('c_name');
+            $table->string('c_address');
+            $table->string('c_no');
+            $table->unsignedBigInteger('borrower_id');
+                $table->foreign('borrower_id')->references('id')->on('borrowers');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('quotations');
