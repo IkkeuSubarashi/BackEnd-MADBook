@@ -11,6 +11,6 @@ class borrower extends Model
     public $timestamps = false;
 
     public function quotations(){
-        return $this->hasMany(quotations::class);
+        return $this->hasMany(quotations::class,'borrower_id');
     }
 }
