@@ -11,9 +11,9 @@ return new class extends Migration
         Schema::create('q_invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('delivery_order_id');
-                $table->foreign('delivery_order_id')->refereces('id')->on('q_delivery_orders');
+                $table->foreign('delivery_order_id')->references('id')->on('q_delivery_orders');
             $table->unsignedBigInteger('quote_id');
-                $table->foreign('quote_id')->refereces('id')->on('quotations');
+                $table->foreign('quote_id')->references('id')->on('quotations');
             $table->integer('status');
             $table->decimal('total', 10, 2);
             $table->timestamp('created_at');

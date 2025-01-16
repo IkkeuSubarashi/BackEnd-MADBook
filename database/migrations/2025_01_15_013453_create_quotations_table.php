@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->longText('logo');
+            $table->longText('logo')->nullable();
             $table->string('subject');
             $table->date('valid_date');
             $table->boolean('status');
