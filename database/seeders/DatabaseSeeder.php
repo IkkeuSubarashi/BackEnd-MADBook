@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             Init::class,
-            q_item::class
+            q_item::class,
+            deliveryOrder::class,
+            q_invoice::class,
         ]);
     }
 }
