@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\api\MADBookQuotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\borrower;
-
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -22,3 +22,5 @@ Route::get('/datatest',function(){
 
     return response()->json($item);
 });
+
+Route::get('/Quotation/{id}/{case}',[MADBookQuotation::class,'show']);
