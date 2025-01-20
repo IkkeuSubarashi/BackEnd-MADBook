@@ -25,6 +25,10 @@ class Init extends Seeder
         }
 
         foreach($borrower as $id){
+            if($id->id == 1){
+                continue;
+            }
+            else{
             for($ii = 0; $ii<$data['n']; $ii++){
                 $quotation [] = [
                     'logo' => null,
@@ -41,6 +45,7 @@ class Init extends Seeder
             }
             quotations::insert($quotation);
             $quotation = [];
+            }
         }
     }
 }
