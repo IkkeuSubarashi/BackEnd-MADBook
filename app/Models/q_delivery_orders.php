@@ -10,6 +10,14 @@ class q_delivery_orders extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $fillable = [
+        'quote_id',
+        'created_at',
+        'delivery_date',
+        'due_date',
+        'partner_by',
+        'partner_cost',
+    ];
 
     public function quotations(){
         return $this->belongsTo(quotations::class,'quote_id');
