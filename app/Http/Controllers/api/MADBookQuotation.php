@@ -3,34 +3,23 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Quotation;
 use App\Models\borrower;
 use App\Models\quotations;
 use Illuminate\Http\Request;
 
 class MADBookQuotation extends Controller
 {
-    public function show($id, $case){
-        switch($case){
-            case 'quotes':
+    public function show($id){
                 $quotes = borrower::with([
-                    'quotations'
+                    'quotations.q_items'
                 ])
                 ->where('id', $id)
                 ->get()->first();
 
-                return response()->json($quotes->quotations);
-            case 'quote':
-                $quote = quotations::with([
-                    'q_items'
-                ])
-                ->where('id', $id)
-                ->get()->first();
+                return response()->json($quotes);
 
-                return response()->json($quote);
-        }
     }
-    public function store(Quotation $request){ // Quotation Request class
+    public function store(Request $request){ // Quotation store
         try{
             $quote = quotations::create([
                 'logo' => $request['logo'],
@@ -45,6 +34,14 @@ class MADBookQuotation extends Controller
                 'borrower_id' => 1
             ]);
 
+            foreach($request['items'] as $item){
+                $quote->q_items()->create([
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_price' => $item['unit_price'],
+                ]);
+            }
+            return response()->json('Insert Quotation');
         }catch(\Exception $e){
             return response()->json('Error: '.$e->getMessage(),500);
         }
