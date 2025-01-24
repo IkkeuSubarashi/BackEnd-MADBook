@@ -14,7 +14,7 @@ return new class extends Migration
                 $table->foreign('delivery_order_id')->references('id')->on('q_delivery_orders');
             $table->unsignedBigInteger('quote_id');
                 $table->foreign('quote_id')->references('id')->on('quotations');
-            $table->integer('status');
+            $table->string('status');
             $table->decimal('total', 10, 2);
             $table->timestamp('created_at');
         });

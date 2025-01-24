@@ -22,7 +22,7 @@ class q_invoice extends Seeder
             q_invoices::create([
                 'delivery_order_id' => $quote->q_delivery_orders->id,
                 'quote_id' => $quote->id,
-                'status' => 0,
+                'status' => 'pending',
                 'total' => 3.142,
                 'created_at' => '2025-1-15',
             ]);
