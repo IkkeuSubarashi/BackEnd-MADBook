@@ -6,20 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('quote_items', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('quote_id');
+                $table->foreign('quote_id')->references('id')->on('quotations');
+            $table->unsignedBigInteger('item_id');
+                $table->foreign('item_id')->references('id')->on('q_items');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('quote_items');

@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Controllers\api;
+
+use App\Http\Controllers\Controller;
+use App\Models\q_invoices;
+use App\Models\quotations;
+use Illuminate\Http\Request;
+
+class MADBookInvoice extends Controller
+{
+    public function show($id){
+        try{
+            $quote = quotations::find($id);
+            $Invoice = q_invoices::where('quote_id',$quote->id)->first();
+            if($Invoice == null)
+                return response()->json('Invoice does not exist for this quotation');
+            else
+                return response()->json($Invoice);
+        }catch(\Exception $e){
+            return $e;
+        }
+    }
+    public function store(Request $request){
+        try{
+            q_invoices::create([
+                'delivery_order_id' => $request['delivery_order_id'],
+                'quote_id' => $request['quote_id'],
+                'status' => $request['status'],
+                'total' => $request['total'],
+                'created_at' => $request['created_at'],
+            ]);
+            return response()->json('Inserted Invoice');
+        }catch(\Exception $e){
+            return response()->json('Error'.$e);
+        }
+        return $request;
+    }
+}
