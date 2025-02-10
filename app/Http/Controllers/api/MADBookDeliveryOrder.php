@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class MADBookDeliveryOrder extends Controller
 {
-    public function show($id){
+    public function show(quotations $quotations){
         try{
-            $quote = quotations::find($id);
-            $DO = q_delivery_orders::where('quote_id',$quote->id)->first();
+            $DO = q_delivery_orders::where('quote_id',$quotations->id)->first();
             if($DO == null)
                 return response()->json('DO does not exist for this quotation');
             else
@@ -35,5 +34,27 @@ class MADBookDeliveryOrder extends Controller
         }catch(\Exception $e){
             return response()->json('Error'.$e);
         }
+    }
+    public function update(quotations $quotations, Request $request){
+        $fillables = [
+            'created_at',
+            'delivery_date',
+            'due_date',
+            'partner_by',
+            'partner_cost'
+        ];
+        $DO = q_delivery_orders::find($quotations->id);
+        $DO->update($request->only($fillables));
+
+        return response()->json($DO);
+    }
+    public function delete(quotations $quotations){
+        if($quotations->q_invoices()){
+            return response()->json("Invoice Exist!");
+        }
+        $quotations->q_delivery_orders()->detach();
+        $quotations->q_delivery_orders()->delete();
+
+        return response()->json('delete');
     }
 }

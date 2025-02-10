@@ -3,22 +3,23 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\q_delivery_orders;
 use App\Models\q_invoices;
 use App\Models\quotations;
+use Database\Seeders\deliveryOrder;
 use Illuminate\Http\Request;
 
 class MADBookInvoice extends Controller
 {
-    public function show($id){
+    public function show(quotations $quotations){
         try{
-            $quote = quotations::find($id);
-            $Invoice = q_invoices::where('quote_id',$quote->id)->first();
+            $Invoice = q_invoices::where('quote_id',$quotations->id)->first();
             if($Invoice == null)
                 return response()->json('Invoice does not exist for this quotation');
             else
                 return response()->json($Invoice);
         }catch(\Exception $e){
-            return $e;
+            return response()->json($e);
         }
     }
     public function store(Request $request){
@@ -35,5 +36,9 @@ class MADBookInvoice extends Controller
             return response()->json('Error'.$e);
         }
         return $request;
+    }
+    public function delete(quotations $quotations){
+        $quotations->q_invoices()->delete();
+        return response()->json('delete');
     }
 }

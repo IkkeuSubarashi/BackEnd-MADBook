@@ -22,11 +22,15 @@ Route::get('/datatest',function(){
     return response()->json($item);
 });
 
-Route::get('/Quotation/{id}',[MADBookQuotation::class,'show']);
+Route::get('/Quotation/{id}',[MADBookQuotation::class,'show']); //id is borrower id (does not use eloquent model)
 Route::post('/Quotation/Store',[MADBookQuotation::class,'store']);
+Route::patch('Quotation/Update/{quotations}',[MADBookQuotation::class,'update']);
+Route::delete('Quotation/Delete/{quotations}',[MADBookQuotation::class,'delete']);
 
-Route::get('/DO/{quoteId}',[MADBookDeliveryOrder::class,'show']);
+Route::get('/DO/{quotations}',[MADBookDeliveryOrder::class,'show']); //calls DO based of quotation id
 Route::post('/DO/Store',[MADBookDeliveryOrder::class,'store']);
+Route::patch('/DO/Update/{quotations}',[MADBookDeliveryOrder::class,'update']);
+Route::delete('/DO/Delete/{quotations}',[MADBookDeliveryOrder::class,'delete']);
 
 Route::get('/Invoice/{quoteId}',[MADBookInvoice::class,'show']);
 Route::post('/Invoice/Store',[MADBookInvoice::class,'store']);
