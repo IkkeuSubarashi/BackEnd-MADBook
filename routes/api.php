@@ -32,5 +32,5 @@ Route::post('/DO/Store',[MADBookDeliveryOrder::class,'store']);
 Route::patch('/DO/Update/{quotations}',[MADBookDeliveryOrder::class,'update']);
 Route::delete('/DO/Delete/{quotations}',[MADBookDeliveryOrder::class,'delete']);
 
-Route::get('/Invoice/{quoteId}',[MADBookInvoice::class,'show']);
+Route::get('/Invoice/{Id}',[MADBookInvoice::class,'show']);
 Route::post('/Invoice/Store',[MADBookInvoice::class,'store']);

@@ -13,7 +13,8 @@ class MADBookQuotation extends Controller
         try{
             //Call all quotations based on that borrower
             $quotes = borrower::with([
-                'quotations.q_items'
+                'quotations.q_items',
+                'quotations.q_invoices'
             ])
             ->where('id', $id)
             ->get()->first();

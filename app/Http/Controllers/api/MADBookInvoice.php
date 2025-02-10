@@ -3,17 +3,22 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\borrower;
 use App\Models\q_delivery_orders;
 use App\Models\q_invoices;
 use App\Models\quotations;
 use Database\Seeders\deliveryOrder;
+use Database\Seeders\q_invoice;
 use Illuminate\Http\Request;
 
 class MADBookInvoice extends Controller
 {
-    public function show(quotations $quotations){
+    public function show($id){
         try{
-            $Invoice = q_invoices::where('quote_id',$quotations->id)->first();
+            $Invoice = q_invoices::with('quotations') //calls invoices based of the borrower id and including the data of the quotation related to the invoices
+                        ->whereHas('quotations', function ($query) use ($id){
+                            $query->where('borrower_id', $id);
+                        })->get();
             if($Invoice == null)
                 return response()->json('Invoice does not exist for this quotation');
             else
