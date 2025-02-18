@@ -10,13 +10,17 @@ return new class extends Migration
     {
         Schema::create('q_delivery_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('quote_id');
-                $table->foreign('quote_id')->references('id')->on('quotations');
-            $table->timestamp('created_at');
+            $table->foreignId('quote_id')->constrained('quotations')->onDelete('cascade');
+            $table->timestamp('issue_date');
             $table->date('delivery_date');
             $table->date('due_date');
-            $table->string('partner_by');
-            $table->decimal('partner_cost', 10, 2);
+            $table->string('ship_by');
+            $table->decimal('ship_fee', 10, 2);
+            $table->string('c_name');
+            $table->string('c_no');
+            $table->text('c_address');
+            $table->decimal('do_total');
+            $table->text('notes');
         });
     }
 

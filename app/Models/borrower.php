@@ -10,12 +10,19 @@ class borrower extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $fillable = [
+        'name',
+        'address',
+        'email',
+    ];
 
-    public function quotations(){
-        return $this->hasMany(quotations::class,'borrower_id');
+    public function quotations()
+    {
+        return $this->hasMany(quotations::class, 'borrower_id');
     }
 
-    public function q_invoices(){
+    public function q_invoices()
+    {
         return $this->hasManyThrough(q_invoices::class, quotations::class, 'borrower_id', 'quote_id');
     }
 }

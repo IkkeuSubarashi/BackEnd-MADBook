@@ -14,14 +14,24 @@ class q_invoices extends Model
         'delivery_order_id',
         'quote_id',
         'status',
-        'total',
-        'created_at',
+        'i_total',
+        'issue_date',
     ];
 
-    public function q_delivery_orders(){
-        return $this->belongsTo(q_delivery_orders::class,'delivery_order_id');
+    public function q_delivery_orders()
+    {
+        return $this->belongsTo(q_delivery_orders::class, 'delivery_order_id');
     }
-    public function quotations(){
-        return $this->belongsTo(quotations::class,'quote_id');
+    public function quotations()
+    {
+        return $this->belongsTo(quotations::class, 'quote_id');
+    }
+    public function q_bank_details()
+    {
+        return $this->hasOne(BankDetails::class, 'delivery_order_id');
+    }
+    public function q_items()
+    {
+        return $this->belongsToMany(q_items::class, 'invoice_items', 'invoice_id', 'item_id');
     }
 }

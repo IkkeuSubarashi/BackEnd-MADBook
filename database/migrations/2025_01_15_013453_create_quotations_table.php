@@ -12,15 +12,18 @@ return new class extends Migration
             $table->id();
             $table->longText('logo')->nullable();
             $table->string('subject');
+            $table->text('address');
+            $table->string('email');
+            $table->date('issue_date');
             $table->date('valid_date');
-            $table->boolean('status');
-            $table->decimal('total', 10, 2);
-            $table->timestamp('created_at');
+            $table->boolean('status')->default(false);
+            $table->decimal('q_total', 10, 2)->default(0.00);
             $table->string('c_name');
             $table->string('c_address');
             $table->string('c_no');
+            $table->text('notes')->nullable();
             $table->unsignedBigInteger('borrower_id');
-                $table->foreign('borrower_id')->references('id')->on('borrowers');
+            $table->foreign('borrower_id')->references('id')->on('borrowers')->onDelete('cascade');
         });
     }
 

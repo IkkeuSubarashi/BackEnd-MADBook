@@ -10,13 +10,12 @@ return new class extends Migration
     {
         Schema::create('q_invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('delivery_order_id');
-                $table->foreign('delivery_order_id')->references('id')->on('q_delivery_orders');
-            $table->unsignedBigInteger('quote_id');
-                $table->foreign('quote_id')->references('id')->on('quotations');
-            $table->string('status');
-            $table->decimal('total', 10, 2);
-            $table->timestamp('created_at');
+            $table->foreignId('delivery_order_id')->constrained('q_delivery_orders')->onDelete('cascade');
+            $table->foreignId('quote_id')->constrained('quotations')->onDelete('cascade');
+            $table->string('status')->default('Pending');
+            $table->decimal('i_total', 10, 2);
+            $table->timestamp('issue_date');
+            $table->text('notes')->nullable();
         });
     }
 
