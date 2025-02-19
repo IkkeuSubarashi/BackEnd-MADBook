@@ -153,8 +153,8 @@ namespace App\Models{
  * @property int $quantity
  * @property string $price
  * @property string $total
- * @property int $invoice_id
- * @property int $delivery_order_id
+ * @property int|null $invoice_id
+ * @property int|null $delivery_order_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\q_delivery_orders> $q_delivery_order
  * @property-read int|null $q_delivery_order_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\q_invoices> $q_invoice

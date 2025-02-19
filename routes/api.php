@@ -36,8 +36,9 @@ Route::get('/Borrower/{id}', [BorrowerController::class, 'show']);
 
 Route::get('/Borrower/{id}/Quotation', [MADBookQuotation::class, 'allQuote']); //id is borrower id (does not use eloquent model)
 Route::get('/Quotation/{id}', [MADBookQuotation::class, 'viewQuote']);
-Route::get('Quotations/{id}/Download', [MADBookQuotation::class, 'download']);
+Route::get('Quotation/{id}/Download', [MADBookQuotation::class, 'download']);
 Route::post('/Quotation/Store', [MADBookQuotation::class, 'store']);
+Route::put('Quotation/{id}/Confirm', [MADBookQuotation::class, 'confirmQuotation']);
 Route::put('Quotation/Update/{quoteId}', [MADBookQuotation::class, 'update']);
 Route::delete('Quotation/Delete/{id}', [MADBookQuotation::class, 'delete']);
 
@@ -53,4 +54,5 @@ Route::get('DO/{id}/Download', [MADBookDeliveryOrder::class, 'download']);
 Route::get('/All/Invoices/{borrowerId}', [MADBookInvoice::class, 'show']);
 Route::get('/Invoice/{id}', [MADBookInvoice::class, 'viewInvoice']);
 Route::post('/Invoice/Store', [MADBookInvoice::class, 'store']);
+Route::get('/Invoice/{id}/Status', [MADBookInvoice::class, 'updatePaymentStatus']);
 Route::get('Invoice/{id}/Download', [MADBookInvoice::class, 'download']);
