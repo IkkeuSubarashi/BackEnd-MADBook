@@ -112,6 +112,19 @@ class MADBookQuotation extends Controller
         }
     }
 
+    public function confirmQuotation($id)
+    {
+        $quotation = quotations::find($id);
+
+        if ($quotation) {
+            $quotation->status = 1;
+            $quotation->save();
+            return response()->json(["message" => "Quotation status changed successfully"]);
+        }
+
+        return response()->json(["message" => "Quotation not found."], 404);
+    }
+
     public function update(Request $request, $quoteId)
     {
         try {

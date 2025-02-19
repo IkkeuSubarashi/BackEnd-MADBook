@@ -105,6 +105,20 @@ class MADBookInvoice extends Controller
         return $request;
     }
 
+    public function updatePaymentStatus($invoiceId, Request $request)
+    {
+        $invoice = q_invoices::findOrFail($invoiceId);
+
+        $validatedData = $request->validate([
+            'status' => 'required|in:Pending,Paid,Canceled'
+        ]);
+
+        $invoice->status = $validatedData['status'];
+        $invoice->save();
+
+        return response()->json(['message' => 'Invoice status updated successfully.'], 200);
+    }
+
     public function download($id)
     {
         $invoice = q_invoices::with('quote_id', 'delivery_order_id')->find($id);
