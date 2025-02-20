@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('q_delivery_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('quote_id')->constrained('quotations')->onDelete('cascade');
-            $table->timestamp('issue_date');
+            $table->date('issue_date');
             $table->date('delivery_date');
             $table->date('due_date');
             $table->string('ship_by');
@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('c_name');
             $table->string('c_no');
             $table->text('c_address');
-            $table->decimal('do_total');
-            $table->text('notes');
+            $table->decimal('do_total', 10, 2)->default(0);
+            $table->text('notes')->nullable();
         });
     }
 

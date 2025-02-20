@@ -54,7 +54,7 @@ class MADBookQuotation extends Controller
             // Validasi input
             $request->validate([
                 'subject' => 'required|string|max:255',
-                'logo' => 'nullable|string',  // Allow logo to be optional (can be null)
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  // Allow logo to be optional (can be null)
                 'issue_date' => 'required|date',
                 'valid_date' => 'required|date',
                 'c_name' => 'required|string|max:255',
@@ -71,9 +71,20 @@ class MADBookQuotation extends Controller
                 'borrower_id' => 'nullable|integer',
             ]);
 
+            $logoName = null;
+            $logoPath = null;
+
+            if ($request->hasFile('logo')) {
+                $file = $request->file('logo');
+                $logoName = $file->getClientOriginalName(); // Get the original file name
+                $logoPath = $file->store('logos', 'public'); // Store in 'storage/app/public/logos'
+            }
+
             // Create quotation
             $quote = quotations::create([
-                'logo' => $request->input('logo'),
+                'logo' => $logoPath ? 'storage/' . $logoPath : null, // Store only if exists
+                'logo_name' => $logoName,
+                'logo_input' => $logoPath,
                 'subject' => $request->input('subject'),
                 'issue_date' => now(),
                 'valid_date' => $request->input('valid_date'),
@@ -106,7 +117,11 @@ class MADBookQuotation extends Controller
             $quote->q_items()->attach($items);
             $quote->update(['q_total' => $totalAmount]);
 
-            return response()->json(["message" => "New quotation saved", "quotation" => $quote], 201);
+            return response()->json([
+                "message" => "New quotation saved",
+                "quotation" => $quote,
+                "logo_path" => $logoPath ? asset('storage/' . $logoPath) : null // Return logo URL
+            ], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

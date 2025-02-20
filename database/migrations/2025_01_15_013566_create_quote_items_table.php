@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('quote_items', function (Blueprint $table) {
             $table->unsignedBigInteger('quote_id');
-                $table->foreign('quote_id')->references('id')->on('quotations');
+            $table->foreign('quote_id')->references('id')->on('quotations');
             $table->unsignedBigInteger('item_id');
-                $table->foreign('item_id')->references('id')->on('q_items');
+            $table->foreign('item_id')->references('id')->on('q_items');
         });
     }
 

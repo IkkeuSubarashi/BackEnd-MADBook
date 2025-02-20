@@ -89,7 +89,7 @@ namespace App\Models{
  * @property string $c_no
  * @property string $c_address
  * @property string $do_total
- * @property string $notes
+ * @property string|null $notes
  * @property-read \App\Models\BankDetails|null $q_bank_details
  * @property-read \App\Models\q_invoices|null $q_invoices
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\q_items> $q_items
@@ -155,6 +155,7 @@ namespace App\Models{
  * @property string $total
  * @property int|null $invoice_id
  * @property int|null $delivery_order_id
+ * @property int|null $quote_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\q_delivery_orders> $q_delivery_order
  * @property-read int|null $q_delivery_order_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\q_invoices> $q_invoice
@@ -170,6 +171,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|q_items whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|q_items wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|q_items whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|q_items whereQuoteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|q_items whereTotal($value)
  */
 	class q_items extends \Eloquent {}
@@ -180,8 +182,10 @@ namespace App\Models{
  * 
  *
  * @property int $id
- * @property string|null $logo
  * @property string $subject
+ * @property string|null $logo
+ * @property string|null $logo_name
+ * @property string|null $logo_input
  * @property string $address
  * @property string $email
  * @property string $issue_date
@@ -210,6 +214,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|quotations whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quotations whereIssueDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quotations whereLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|quotations whereLogoInput($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|quotations whereLogoName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quotations whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quotations whereQTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quotations whereStatus($value)
@@ -225,11 +231,21 @@ namespace App\Models{
  *
  * @property int $quote_id
  * @property int $item_id
+ * @property int $quantity
+ * @property string $price
+ * @property string $total
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|quote_items newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|quote_items newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|quote_items query()
+ * @method static \Illuminate\Database\Eloquent\Builder|quote_items whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quote_items whereItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|quote_items wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|quote_items whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|quote_items whereQuoteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|quote_items whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|quote_items whereUpdatedAt($value)
  */
 	class quote_items extends \Eloquent {}
 }

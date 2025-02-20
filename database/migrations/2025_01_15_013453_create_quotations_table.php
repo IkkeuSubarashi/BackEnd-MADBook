@@ -10,8 +10,10 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->longText('logo')->nullable();
             $table->string('subject');
+            $table->longText('logo')->nullable();
+            $table->string('logo_name')->nullable();
+            $table->string('logo_input')->nullable();
             $table->text('address');
             $table->string('email');
             $table->date('issue_date');

@@ -84,25 +84,46 @@ class MADBookInvoice extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $deliveryOrder = q_delivery_orders::where('quote_id', $request->quote_id)->first();
+        // try {
+        //     $deliveryOrder = q_delivery_orders::where('quote_id', $request->quote_id)->first();
 
-            if (!$deliveryOrder) {
-                return response()->json(["error" => "Delivery order not found"], 404);
-            }
+        //     if (!$deliveryOrder) {
+        //         return response()->json(["error" => "Delivery order not found"], 404);
+        //     }
 
-            $invoice = q_invoices::create([
-                'delivery_order_id' => $deliveryOrder->id,
-                'quote_id' => $deliveryOrder->quote_id,
-                'status' => 'Pending',
-                'i_total' => $deliveryOrder->do_total,
-                'issue_date' => now(),
-            ]);
-            return response()->json(["message", "Invoice created successfully", 'invoice' => $invoice]);
-        } catch (\Exception $e) {
-            return response()->json(['Error' => $e->getMessage()], 500);
-        }
-        return $request;
+        //     $invoice = q_invoices::create([
+        //         'delivery_order_id' => $deliveryOrder->id,
+        //         'quote_id' => $deliveryOrder->quote_id,
+        //         'status' => 'Pending',
+        //         'i_total' => $deliveryOrder->do_total,
+        //         'issue_date' => now(),
+        //     ]);
+        //     return response()->json(["message", "Invoice created successfully", 'invoice' => $invoice]);
+        // } catch (\Exception $e) {
+        //     return response()->json(['Error' => $e->getMessage()], 500);
+        // }
+        // return $request;
+
+        $request->validate([
+            'quote_id' => 'required|exists:quotations,id',
+            'delivery_order_id' => 'required|exists:delivery_orders,id',
+            'issue_date' => 'required|date',
+            'notes' => 'nullable|string',
+        ]);
+
+        // Fetch DO total
+        $deliveryOrder = q_delivery_orders::find($request->delivery_order_id);
+
+        // Create Invoice
+        $invoice = q_invoices::create([
+            'quote_id' => $request->quote_id,
+            'delivery_order_id' => $request->delivery_order_id,
+            'i_total' => $deliveryOrder->do_total, // Using DO total
+            'issue_date' => $request->issue_date,
+            'notes' => $request->notes,
+        ]);
+
+        return response()->json(['message' => 'Invoice created successfully', 'invoice' => $invoice]);
     }
 
     public function updatePaymentStatus($invoiceId, Request $request)

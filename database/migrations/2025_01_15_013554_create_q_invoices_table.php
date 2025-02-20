@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('quote_id')->constrained('quotations')->onDelete('cascade');
             $table->string('status')->default('Pending');
             $table->decimal('i_total', 10, 2);
-            $table->timestamp('issue_date');
+            $table->date('issue_date');
             $table->text('notes')->nullable();
         });
     }

@@ -13,6 +13,8 @@ class quotations extends Model
     public $timestamps = false;
     protected $fillable = [
         'logo',
+        'logo_name',
+        'logo_input',
         'subject',
         'address',
         'email',
