@@ -10,9 +10,12 @@ return new class extends Migration
     {
         Schema::create('q_items', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->integer('qty');
-            $table->decimal('unit_price', 10,2);
+            $table->string('name');
+            $table->integer('quantity');
+            $table->decimal('price', 10, 2);
+            $table->decimal('total', 10, 2)->default(0.00);
+            $table->unsignedBigInteger('invoice_id')->nullable();
+            $table->unsignedBigInteger('delivery_order_id')->nullable();
         });
     }
 

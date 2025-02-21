@@ -7,25 +7,36 @@ use Illuminate\Database\Seeder;
 use App\Models\quotations;
 use App\Models\q_delivery_orders;
 use App\Models\q_invoices;
+use DB;
 
 class q_invoice extends Seeder
 {
     public function run(): void
     {
-        $quotes = quotations::with([
-            'q_delivery_orders'
-        ])->where('status', true)
-          ->get();
+        $quotes = quotations::where('status', true)
+            ->with('q_delivery_orders')
+            ->get();
 
 
-        foreach($quotes as $quote){
-            q_invoices::create([
-                'delivery_order_id' => $quote->q_delivery_orders->id,
-                'quote_id' => $quote->id,
-                'status' => 0,
-                'total' => 3.142,
-                'created_at' => '2025-1-15',
-            ]);
+        foreach ($quotes as $quote) {
+            $delivery_order = $quote->q_delivery_orders;
+
+            if ($delivery_order) {
+                $invoice = q_invoices::create([
+                    'delivery_order_id' => $delivery_order->id,
+                    'quote_id' => $quote->id,
+                    'status' => 'Pending',
+                    'i_total' => $delivery_order->do_total,
+                    'issue_date' => now(),
+                ]);
+
+                foreach ($quote->q_items as $item) {
+                    DB::table('invoice_items')->insert([
+                        'invoice_id' => $invoice->id,
+                        'item_id' => $item->id,
+                    ]);
+                }
+            }
         }
     }
 }
