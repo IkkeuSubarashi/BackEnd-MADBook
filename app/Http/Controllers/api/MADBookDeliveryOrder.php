@@ -57,7 +57,7 @@ class MADBookDeliveryOrder extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request) //uhm
     {
         try {
             // Validate incoming request data
